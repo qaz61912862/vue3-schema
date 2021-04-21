@@ -1,6 +1,9 @@
-import { defineComponent, PropType, reactive, toRefs } from 'vue';
+import { defineComponent, PropType, reactive } from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
 
+const renderHelloWorld = (msg: string) => {
+    return <HelloWorld msg={msg}/>
+}
 export default defineComponent({
   name: 'App',
   props: {
@@ -24,7 +27,9 @@ export default defineComponent({
         return (
             <div id="app">
                 <p onClick={test}>{state.name}</p>
-                <HelloWorld />
+                <input v-model={state.name}/>
+                {state.name}
+                {renderHelloWorld('nlm')}
             </div>
         )
     }
