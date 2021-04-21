@@ -1,11 +1,3 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  {{name}}
-  <p @click="test">pp</p>
-</template>
-
-<script lang="ts">
 import { defineComponent, PropType, reactive, toRefs } from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
 
@@ -28,24 +20,16 @@ export default defineComponent({
     const test = () => {
       state.name += '1'
     }
-    return {
-      ...toRefs(state),
-      test
+    return () => {
+        return (
+            <div id="app">
+                <p onClick={test}>{state.name}</p>
+                <HelloWorld />
+            </div>
+        )
     }
   },
   components: {
     HelloWorld
   }
 });
-</script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
