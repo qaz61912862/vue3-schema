@@ -1,40 +1,38 @@
-import { defineComponent, PropType, reactive } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import { defineComponent, reactive, Ref, ref } from 'vue';
+import MonacoEditor from './components/MonacoEditor';
 
-const renderHelloWorld = (msg: string) => {
-    return <HelloWorld msg={msg}/>
+function toJson(data: any) {
+  return JSON.stringify(data, null, 2);
 }
+
+const schema = {
+  type: 'string',
+}
+
 export default defineComponent({
   name: 'App',
-  props: {
-    age: {
-      type: Number as PropType<number>
-    },
-    config: {
-      type: Object as PropType<{age: number}>,
-      required: true
-    }
+  components: {
+    MonacoEditor,
   },
-  setup(props, { slots, attrs, emit }) {
-    // console.log(props.config.age);
-    const state = reactive({
-      name: '1234'
-    })
-    const test = () => {
-      state.name += '1'
+  setup() {
+    const numberRef: Ref<any> = ref(schema);
+    const handleChange = (code: string) => {
+      let data:any
+      try {
+        console.log(code);
+        data = JSON.parse(code)
+      } catch (e) {
+        numberRef.value = data
+        console.log(e)
+      }
     }
     return () => {
+        const code = toJson(numberRef.value)
         return (
             <div id="app">
-                <p onClick={test}>{state.name}</p>
-                <input v-model={state.name}/>
-                {state.name}
-                {renderHelloWorld('nlm')}
+              <MonacoEditor code={code} onChange={handleChange} title="Schema" style="min-height: 400px;" />
             </div>
         )
     }
-  },
-  components: {
-    HelloWorld
   }
 });
