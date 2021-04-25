@@ -1,5 +1,6 @@
 import { defineComponent, reactive, Ref, ref } from 'vue';
 import MonacoEditor from './components/MonacoEditor';
+import SchemaForm from '../lib/SchemaForm'
 
 function toJson(data: any) {
   return JSON.stringify(data, null, 2);
@@ -16,6 +17,9 @@ export default defineComponent({
   },
   setup() {
     const numberRef: Ref<any> = ref(schema);
+    const demo = reactive({
+      data: ''
+    })
     const handleChange = (code: string) => {
       let data:any
       try {
@@ -31,6 +35,7 @@ export default defineComponent({
         return (
             <div id="app">
               <MonacoEditor code={code} onChange={handleChange} title="Schema" style="min-height: 400px;" />
+              <SchemaForm schema={schema} onChange={handleChange} value={demo.data}/>
             </div>
         )
     }
